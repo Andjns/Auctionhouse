@@ -1,6 +1,8 @@
 package hogskolan.auction.auctionhouse.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -20,6 +22,24 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Bid> addbid = new ArrayList<>();
+
+    public void addBid(Bid bid) {
+        addbid.add(bid);
+        bid.setProduct(this);
+    }
+    public void removeBid(Bid bid) {
+        addbid.remove(bid);
+        bid.setProduct(this);
+    }
+
+
+
     public Product() {
 
     }
@@ -28,6 +48,8 @@ public class Product {
         this.name = name;
         this.description = description;
     }
+
+
 
     public String getImg() {
         return img;
