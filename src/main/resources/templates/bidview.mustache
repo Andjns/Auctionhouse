@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container" style="width: 500px; margin: auto;">
-    <h1>Update Product</h1>
+    <h1>Add your bid!</h1>
 
     <form method="POST" action="/updatedbid">
         <input type="hidden" name="p_id" class="form-control" value="{{product.p_id}}">
@@ -21,11 +21,12 @@
 
         <label>Description</label>
         <input type="text" name="description" class="form-control" value="{{product.description}}" readonly>
+        <br>
 
-        <label>Bid</label>
+        <label>Add your bid here:</label>
         <input type="text" name="price" class="form-control" value="{{product.price}}">
         <br>
-        <button class="btn btn-primary" type="submit">Add change</button>
+        <button class="btn btn-primary" type="submit">Add Bid</button>
 
     </form>
 
