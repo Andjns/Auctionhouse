@@ -22,6 +22,15 @@ public class User {
     )
     private List<Product> addprod = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Bid> addbid = new ArrayList<>();
+
+
+
     public User() {
 
     }
@@ -43,6 +52,17 @@ public class User {
         addprod.remove(product);
         product.setUser(this);
     }
+
+    public void addBid(Bid bid) {
+        addbid.add(bid);
+        bid.setUser(this);
+    }
+    public void removeBid(Bid bid) {
+        addbid.remove(bid);
+        bid.setUser(this);
+    }
+
+
 
     public Integer getU_id() {
         return u_id;

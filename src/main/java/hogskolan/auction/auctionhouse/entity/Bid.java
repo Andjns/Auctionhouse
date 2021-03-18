@@ -13,6 +13,13 @@ public class Bid {
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+
+
+
+
     public Bid() {
 
     }
@@ -21,6 +28,14 @@ public class Bid {
         this.price = price;
     }
 
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Integer getB_id() {
         return b_id;
