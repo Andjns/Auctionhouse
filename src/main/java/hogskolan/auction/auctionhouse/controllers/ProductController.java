@@ -120,10 +120,10 @@ public class ProductController {
         model.addAttribute("products", listProducts);//set the list with the 3 products
         return "productspage";
 
-    }//end class, test
+    }
 
 
 
 
 
-}
+}//end Controller class
