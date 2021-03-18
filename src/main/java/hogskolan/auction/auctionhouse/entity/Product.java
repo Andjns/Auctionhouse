@@ -14,6 +14,7 @@ public class Product {
     private String description;
     @Column (length = 800)
     private String img;
+    private Integer price;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,7 +50,13 @@ public class Product {
         this.description = description;
     }
 
+    public Integer getPrice() {
+        return price;
+    }
 
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 
     public String getImg() {
         return img;

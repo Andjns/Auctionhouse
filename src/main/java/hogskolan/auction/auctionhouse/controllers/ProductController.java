@@ -53,6 +53,7 @@ public class ProductController {
         product.setName(allFormRequestParams.get("name"));
         product.setDescription(allFormRequestParams.get("description"));
         product.setImg(allFormRequestParams.get("img"));
+        product.setPrice(0);
         User user1 = userRepository.findById(1).get();
         Category category = categoryRepository.findById(Integer.parseInt(allFormRequestParams.get("categoryId"))).get();
         product.setCategory(category);
