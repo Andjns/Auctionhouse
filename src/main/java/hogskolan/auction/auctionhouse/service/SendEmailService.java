@@ -11,9 +11,8 @@ public class SendEmailService {
     @Autowired
     JavaMailSender javaMailSender;
 
+    //sendMail when add product
     public void sendEmail(String to, String body, String topic){
-
-
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("h18jlagn@gmail.com");
         simpleMailMessage.setTo(to);
@@ -23,6 +22,18 @@ public class SendEmailService {
         System.out.println("sent email");
     }
 
+
+    //Send mail for when add bid
+    public void sendBidEmail(String to, String body, String topic, Integer price){
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom("h18jlagn@gmail.com");
+        simpleMailMessage.setTo(to);
+        simpleMailMessage.setSubject(topic);
+        simpleMailMessage.setText(body);
+        simpleMailMessage.setText(String.valueOf(price));
+        javaMailSender.send(simpleMailMessage);
+        System.out.println("sent email");
+    }
 
     
 

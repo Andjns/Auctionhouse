@@ -60,6 +60,7 @@ public class BidController {
         return "bidview";
     }
 
+    /* fungerande bid kod, utan mailsender
     @PostMapping("/bidinitdb")
     public String addBidToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
         Bid bid = new Bid();
@@ -69,7 +70,26 @@ public class BidController {
         product.addBid(bid);
         productRepository.save(product);
         return "redirect:/userpage";
+    }*/
+
+    @PostMapping("/bidinitdb")
+    public String addBidToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
+        Bid bid = new Bid();
+        bid.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
+        Product product = productRepository.findById(Integer.parseInt(allFormRequestParams.get("p_id"))).get();
+        bid.setUser(userRepository.findById(2).get());
+        product.addBid(bid);
+        productRepository.save(product);
+
+        List<String> Bidmails = new ArrayList<>();
+        for (User user : userRepository.findAll()) {
+            Bidmails.add(user.getEmail());
+            sendEmailService.sendBidEmail(user.getEmail(), product.getName(), product.getDescription(), bid.getPrice());
+        }
+        model.addAttribute("mail", Bidmails);
+        return "redirect:/userpage";
     }
 
 
-}
+
+}//end class

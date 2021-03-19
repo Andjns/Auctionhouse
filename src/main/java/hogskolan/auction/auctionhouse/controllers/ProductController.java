@@ -38,7 +38,6 @@ public class ProductController {
     }
 
 
-
     //add product
     @RequestMapping("/addproduct")
     public String addProduct(Model model) {
@@ -59,8 +58,6 @@ public class ProductController {
         product.setCategory(category);
         user1.addProduct(product);
         userRepository.save(user1);
-
-
 
         List<String> mails = new ArrayList<>();
         for(User user : userRepository.findAll()) {
@@ -122,8 +119,6 @@ public class ProductController {
         return "productspage";
 
     }
-
-
 
 
 
