@@ -13,7 +13,8 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Loga</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -25,22 +26,20 @@
     </div>
 </nav>
 
-    <h2 style="text-align: center; color: royalblue;"> Welcome To User Page</h2>
+<h2 style="text-align: center; color: royalblue;"> Welcome To User Page</h2>
 <a href="/findbeer">Beer Category</a>
-<div class="container" >
+<div class="container">
     <div class="card-columns" style="flex: border-box">
         {{#products}}
             <div class="card" style="margin: 30px">
                 <img class="card-img-top" src="{{img}}" alt="Card image">
                 <div class="card-body">
-                    <h4 >{{name}}</h4>
-                    <p >{{description}}</p>
-                    {{#addbid}}<p >Bud: {{price}} </p>{{/addbid}}
+                    <h4>{{name}}</h4>
+                    <p>{{description}}</p>
+                    <p> Start Price: {{price}}</p>
+                    {{#addbid}}<p>Bud: {{price}} </p>{{/addbid}}
                     <br>
-
-
                     <a href="/addbid/{{p_id}}">Add a bid</a>
-
                 </div>
             </div>
         {{/products}}

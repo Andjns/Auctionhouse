@@ -52,7 +52,7 @@ public class ProductController {
         product.setName(allFormRequestParams.get("name"));
         product.setDescription(allFormRequestParams.get("description"));
         product.setImg(allFormRequestParams.get("img"));
-        product.setPrice(0);
+        product.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
         User user1 = userRepository.findById(1).get();
         Category category = categoryRepository.findById(Integer.parseInt(allFormRequestParams.get("categoryId"))).get();
         product.setCategory(category);
@@ -60,7 +60,7 @@ public class ProductController {
         userRepository.save(user1);
 
         List<String> mails = new ArrayList<>();
-        for(User user : userRepository.findAll()) {
+        for (User user : userRepository.findAll()) {
             mails.add(user.getEmail());
             sendEmailService.sendEmail(user.getEmail(), product.getName(), product.getDescription());
         }
@@ -91,9 +91,6 @@ public class ProductController {
         productRepository.save(product);
         return "redirect:/allproducts";
     }
-
-
-
 
 
 }//end Controller class
