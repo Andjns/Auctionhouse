@@ -29,7 +29,7 @@
 <a href="/findbeer">Beer Category</a>
 <div class="container" >
     <div class="card-columns" style="flex: border-box">
-        {{#add}}
+        {{#products}}
             <div class="card" style="margin: 30px">
                 <img class="card-img-top" src="{{img}}" alt="Card image">
                 <div class="card-body">
@@ -43,9 +43,22 @@
 
                 </div>
             </div>
-        {{/add}}
+        {{/products}}
         <br>
     </div>
+
+    Page {{displayableCurrentPageNumber}} of {{totalPages}}<br>
+    {{#hasPrevious}}
+        <a href="/page/{{previousPageNumber}}">
+            Previous page
+        </a>
+    {{/hasPrevious}}
+    |
+    {{#hasNext}}
+        <a href="/page/{{nextPageNumber}}">
+            Next page
+        </a>
+    {{/hasNext}}
 
 
 </div>
