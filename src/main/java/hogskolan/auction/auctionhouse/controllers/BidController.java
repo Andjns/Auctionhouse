@@ -87,7 +87,7 @@ public class BidController {
             sendEmailService.sendBidEmail(user.getEmail(), product.getName(), product.getDescription(), bid.getPrice());
         }
         model.addAttribute("mail", Bidmails);
-        return "redirect:/userpage";
+        return "redirect:/page/0";
     }
 
 
