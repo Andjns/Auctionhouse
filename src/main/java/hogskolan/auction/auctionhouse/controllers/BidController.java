@@ -33,7 +33,7 @@ public class BidController {
     SendEmailService sendEmailService;
 
 
-    //update product
+    /*
     @GetMapping("/updatebid/{p_id}")
     public String updateProductById(Model model, @PathVariable Integer p_id) {
         model.addAttribute("product", productRepository.findById(p_id).get());
@@ -49,38 +49,27 @@ public class BidController {
         productRepository.save(product);
         return "redirect:/userpage";
     }
+    */
 
 
-/*
     //add bid
     @RequestMapping("/addbid/{p_id}")
     public String addBid(Model model, @PathVariable Integer p_id) {
-        model.addAttribute("bid", productRepository.findById(p_id).get());
+        model.addAttribute("product", productRepository.findById(p_id).get());
 
-        return "userpage";
+        return "bidview";
     }
 
     @PostMapping("/bidinitdb")
     public String addBidToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
         Bid bid = new Bid();
         bid.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
-        Product product = productRepository.findById(1).get();
+        Product product = productRepository.findById(Integer.parseInt(allFormRequestParams.get("p_id"))).get();
+        bid.setUser(userRepository.findById(2).get());
         product.addBid(bid);
-        User user2 = userRepository.findById(2).get();
-        user2.addBid(bid);
-        user2.addProduct(product);
-        userRepository.save(user2);
-
-
-
-        List<String> mails = new ArrayList<>();
-        for(User user : userRepository.findAll()) {
-            mails.add(user.getEmail());
-            sendEmailService.sendEmail(user.getEmail(), user.getName(), user.getName());
-        }
-        model.addAttribute("mail", mails);
-        return "redirect:/addbid/{p_id}";
+        productRepository.save(product);
+        return "redirect:/userpage";
     }
 
- */
+
 }

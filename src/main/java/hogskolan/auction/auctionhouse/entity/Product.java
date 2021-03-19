@@ -105,4 +105,12 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public List<Bid> getAddbid() {
+        return addbid;
+    }
+
+    public void setAddbid(List<Bid> addbid) {
+        this.addbid = addbid;
+    }
 }

@@ -35,11 +35,11 @@
                 <div class="card-body">
                     <h4 >{{name}}</h4>
                     <p >{{description}}</p>
-                    <p >Högsta bud: {{price}}:-</p>
+                    {{#addbid}}<p >Bud: {{price}} </p>{{/addbid}}
                     <br>
 
 
-                    <a href="/updatebid/{{p_id}}">Add a bid</a>
+                    <a href="/addbid/{{p_id}}">Add a bid</a>
 
                 </div>
             </div>
