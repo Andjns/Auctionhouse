@@ -37,12 +37,13 @@
                     <h4>{{name}}</h4>
                     <p>{{description}}</p>
                     <p> Start Price: {{price}}</p>
-                    {{#addbid}}<p>Bud: {{price}} </p>{{/addbid}}
+                    <p>Bud:</p>
+                    {{#pricedesc}}<p>{{price}} </p>{{/pricedesc}}
                     <br>
                     <a href="/addbid/{{p_id}}">Add a bid</a>
                 </div>
             </div>
-        {{/products}}
+            {{/products}}
         <br>
     </div>
 
