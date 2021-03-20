@@ -10,24 +10,22 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container" style="width: 500px; margin: auto;">
-    <h1>Update User</h1>
 
-    <form method="POST" action="/updateduser">
+<div class="container">
+    <h2>All products</h2>
+    <a href="/page/0">show 3 items</a>
+    <ul>
+        {{#products}}
+            <li> {{name}}, {{description}} <i class="small"> by {{user.name}}</i>
+                <a href="/products/delete{{p_id}}">Delete</a>
+                <a href="/products/update/{{p_id}}">Update</a>
+            </li>
+        {{/products}}
+    </ul>
 
-        <input type="hidden" name="u_id" class="form-control" value="{{user.u_id}}">
-        <br>
-        <label>Name</label>
-        <input type="text" name="name" class="form-control" value="{{user.name}}">
-
-        <label>Email</label>
-        <input type="text" name="email" class="form-control" value="{{user.email}}">
-        <br>
-        <button class="btn btn-primary" type="submit">Add change</button>
-
-    </form>
 
 
 </div>
+
 </body>
 </html>

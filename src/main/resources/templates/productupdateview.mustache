@@ -13,7 +13,7 @@
 <div class="container" style="width: 500px; margin: auto;">
     <h1>Update Product</h1>
 
-    <form method="POST" action="/updated">
+    <form method="POST" action="/products/update/{{product.p_id}}">
         <input type="hidden" name="p_id" class="form-control" value="{{product.p_id}}">
         <br>
         <label>Name</label>

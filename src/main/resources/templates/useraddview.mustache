@@ -11,13 +11,16 @@
 </head>
 <body>
 <div class="container" style="width: 500px; margin: auto;">
-    <h1>Add User</h1>
-    <form method="POST" action="/userinitdb">
+    <h1>Add user</h1>
+    <form method="POST" action="/admin/users/add">
         <label>Name</label>
         <input type="text" name="name" class="form-control">
 
         <label>Email</label>
-        <textarea type="text" name="email" class="form-control"></textarea>
+        <input type="email" name="email" class="form-control">
+        <br>
+        <label>Email</label>
+        <input type="password" name="password" class="form-control">
         <br>
 
         <button class="btn btn-primary" type="submit">Submit user</button>

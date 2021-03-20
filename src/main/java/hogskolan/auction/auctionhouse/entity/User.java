@@ -13,7 +13,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer u_id;
     private String name;
+    private String password;
     private String email;
+    private String role;
+    private Integer status;
 
     @OneToMany(
             mappedBy = "user",
@@ -29,18 +32,16 @@ public class User {
     )
     private List<Bid> addbid = new ArrayList<>();
 
-
-
     public User() {
-
     }
 
     public User(String name) {
         this.name = name;
     }
 
-    public User(String name, String email) {
+    public User(String name, String password, String email) {
         this.name = name;
+        this.password = password;
         this.email = email;
     }
 
@@ -88,5 +89,27 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }
