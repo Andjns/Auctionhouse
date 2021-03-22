@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Add user</title>
+    <title>Bootstrap Example</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -11,17 +11,20 @@
 </head>
 <body>
 <div class="container" style="width: 500px; margin: auto;">
-    <h1>Add User</h1>
-    <form method="POST" action="/userinitdb">
-        <label>Name</label>
-        <input type="text" name="name" class="form-control">
+    <h1>Update Product</h1>
 
-        <label>Email</label>
-        <textarea type="text" name="email" class="form-control"></textarea>
+    <form method="POST" action="/products/update/{{product.p_id}}">
+        <input type="hidden" name="p_id" class="form-control" value="{{product.p_id}}">
         <br>
+        <label>Name</label>
+        <input type="text" name="name" class="form-control" value="{{product.name}}">
 
-        <button class="btn btn-primary" type="submit">Submit user</button>
-    </form><br>
+        <label>Description</label>
+        <input type="text" name="description" class="form-control" value="{{product.description}}">
+        <br>
+        <button class="btn btn-primary" type="submit">Add change</button>
+
+    </form>
 
 
 </div>

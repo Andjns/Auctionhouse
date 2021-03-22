@@ -1,7 +1,7 @@
 package hogskolan.auction.auctionhouse.controllers;
 
-import hogskolan.auction.auctionhouse.entity.Category;
 import hogskolan.auction.auctionhouse.entity.Product;
+import hogskolan.auction.auctionhouse.entity.Role;
 import hogskolan.auction.auctionhouse.entity.User;
 import hogskolan.auction.auctionhouse.repository.CategoryRepository;
 import hogskolan.auction.auctionhouse.repository.ProductRepository;
@@ -9,6 +9,7 @@ import hogskolan.auction.auctionhouse.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,16 +31,16 @@ public class UserController {
     private CategoryRepository categoryRepository;
 
     //show all users
-    @GetMapping("/allusers")
+    @GetMapping("/admin/users")
     public String getAllUsers(Model model) {
         model.addAttribute("users", userRepository.findAll());
-        return "allusers";
+        return "usersallview";
     }
 
     //Visas i tabellen i adminview
-    @RequestMapping("/adminview")
+    @RequestMapping("/admin")
     public String showAdmin(Model model) {
-        model.addAttribute("add", productRepository.findAll());
+        model.addAttribute("products", productRepository.findAll());
         model.addAttribute("cat", categoryRepository.findAll());
         model.addAttribute("users", userRepository.findAll());
         return "adminview";
@@ -47,47 +48,70 @@ public class UserController {
 
 
     //add user
-    @RequestMapping("/adduser")
+    @RequestMapping("/admin/users/add")
     public String addUser(Model model) {
-        model.addAttribute("user", userRepository.findAll());
-        return "adduser";
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role("ROLE_USER", true));
+        roles.add(new Role("ROLE_ADMIN", false));
+        model.addAttribute("roles", roles);
+        return "useraddview";
     }
 
+    @Autowired
+    PasswordEncoder encoder;
+
     //add user
-    @PostMapping("/userinitdb")
+    @PostMapping("/admin/users/add")
     public String addUserToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
         User user = new User();
         user.setName(allFormRequestParams.get("name"));
+        user.setPassword(encoder.encode(allFormRequestParams.get("password")));
         user.setEmail(allFormRequestParams.get("email"));
+        user.setRole(allFormRequestParams.get("role"));
+        user.setStatus(1);
 
         userRepository.save(user);
 
-        return "redirect:/adminview";
+        return "redirect:/admin";
     }
 
     //delete user
-    @GetMapping("/deleteuser/{u_id}")
+    @GetMapping("/admin/users/delete/{u_id}")
     public String deleteUserById(@PathVariable Integer u_id) {
         userRepository.deleteById(u_id);
-        return "redirect:/adminview";
+        return "redirect:/admin";
     }
 
 
     //update
-    @GetMapping("/updateuser/{u_id}")
+    @GetMapping("/admin/users/update/{u_id}")
     public String updateUserById(Model model, @PathVariable Integer u_id) {
-        model.addAttribute("user", userRepository.findById(u_id).get());
-        return "updateuser";
+        User user = userRepository.findById(u_id).get();
+        model.addAttribute("user", user);
+        List<Role> roles = new ArrayList<>();
+        System.out.println(user);
+        if (user.getRole().equals("ROLE_USER")) {
+            roles.add(new Role("ROLE_USER", true));
+            roles.add(new Role("ROLE_ADMIN", false));
+        } else {
+            roles.add(new Role("ROLE_USER", false));
+            roles.add(new Role("ROLE_ADMIN", true));
+        }
+        model.addAttribute("roles", roles);
+        return "userupdateview";
     }
 
     //update
-    @PostMapping("/updateduser")
+    @PostMapping("/admin/users/update/{u_id}")
     public String updateUser(@RequestParam Map<String, String> allFormRequestParams, Integer u_id) {
         User user = userRepository.findById(u_id).get();
         user.setName(allFormRequestParams.get("name"));
         user.setEmail(allFormRequestParams.get("email"));
+        user.setPassword(encoder.encode(allFormRequestParams.get("password")));
+        user.setRole(allFormRequestParams.get("role"));
+        System.out.println(user);
         userRepository.save(user);
-        return "redirect:/adminview";
+        return "redirect:/admin";
     }
 
     //User Page
