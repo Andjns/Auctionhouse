@@ -32,33 +32,16 @@ public class BidController {
 @Autowired
     SendEmailService sendEmailService;
 
-
-    /*
-    @GetMapping("/updatebid/{p_id}")
-    public String updateProductById(Model model, @PathVariable Integer p_id) {
-        model.addAttribute("product", productRepository.findById(p_id).get());
-        return "bidview";
-    }
-
-    @PostMapping("/updatedbid")
-    public String updateProduct(@RequestParam Map<String, String> allFormRequestParams, Integer p_id) {
-        Product product = productRepository.findById(p_id).get();
-        product.setName(allFormRequestParams.get("name"));
-        product.setDescription(allFormRequestParams.get("description"));
-        product.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
-        productRepository.save(product);
-        return "redirect:/userpage";
-    }
-    */
-
-
     //add bid
     @RequestMapping("/addbid/{p_id}")
     public String addBid(Model model, @PathVariable Integer p_id) {
         model.addAttribute("product", productRepository.findById(p_id).get());
 
+
         return "bidview";
     }
+
+
 
     /* fungerande bid kod, utan mailsender
     @PostMapping("/bidinitdb")
@@ -81,12 +64,12 @@ public class BidController {
         product.addBid(bid);
         productRepository.save(product);
 
-        List<String> Bidmails = new ArrayList<>();
+       /* List<String> Bidmails = new ArrayList<>();
         for (User user : userRepository.findAll()) {
             Bidmails.add(user.getEmail());
             sendEmailService.sendBidEmail(user.getEmail(), product.getName(), product.getDescription(), bid.getPrice());
         }
-        model.addAttribute("mail", Bidmails);
+        model.addAttribute("mail", Bidmails);*/
         return "redirect:/page/0";
     }
 

@@ -39,6 +39,29 @@ public class ProductController {
         return "productaddview";
     }
 
+
+    @PostMapping("/productinitdb")
+    public String addProductToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
+        Product product = new Product();
+        product.setName(allFormRequestParams.get("name"));
+        product.setDescription(allFormRequestParams.get("description"));
+        product.setImg(allFormRequestParams.get("img"));
+        product.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
+        User user1 = userRepository.findById(1).get();
+        Category category = categoryRepository.findById(Integer.parseInt(allFormRequestParams.get("categoryId"))).get();
+        product.setCategory(category);
+        user1.addProduct(product);
+        userRepository.save(user1);
+
+        List<String> mails = new ArrayList<>();
+        for (User user : userRepository.findAll()) {
+            mails.add(user.getEmail());
+            sendEmailService.sendEmail(user.getEmail(), product.getName(), product.getDescription());
+        }
+        model.addAttribute("mail", mails);
+        return "redirect:/allproducts";
+    }
+
     //delete product
     @GetMapping("/products/delete/{p_id}")
     public String deleteProductById(@PathVariable Integer p_id) {

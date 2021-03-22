@@ -12,7 +12,7 @@ public class Product {
     private Integer p_id;
     private String name;
     private String description;
-    @Column (length = 800)
+    @Column(length = 800)
     private String img;
     private Integer price;
 
@@ -34,11 +34,11 @@ public class Product {
         addbid.add(bid);
         bid.setProduct(this);
     }
+
     public void removeBid(Bid bid) {
         addbid.remove(bid);
         bid.setProduct(this);
     }
-
 
 
     public Product() {

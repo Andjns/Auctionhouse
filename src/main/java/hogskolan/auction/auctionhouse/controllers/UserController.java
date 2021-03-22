@@ -3,6 +3,7 @@ package hogskolan.auction.auctionhouse.controllers;
 import hogskolan.auction.auctionhouse.entity.Product;
 import hogskolan.auction.auctionhouse.entity.Role;
 import hogskolan.auction.auctionhouse.entity.User;
+import hogskolan.auction.auctionhouse.repository.BidRepository;
 import hogskolan.auction.auctionhouse.repository.CategoryRepository;
 import hogskolan.auction.auctionhouse.repository.ProductRepository;
 import hogskolan.auction.auctionhouse.repository.UserRepository;
@@ -29,6 +30,9 @@ public class UserController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private BidRepository bidRepository;
 
     //show all users
     @GetMapping("/admin/users")
@@ -147,6 +151,7 @@ public class UserController {
         model.addAttribute("hasNext", pagedResult.hasNext());
         model.addAttribute("hasPrevious", pagedResult.hasPrevious());
         model.addAttribute("products", listProducts);//set the list with the 3 products
+        model.addAttribute("pricedesc", bidRepository.findByOrderByPriceAsc());
         return "userpage";
 
     }
