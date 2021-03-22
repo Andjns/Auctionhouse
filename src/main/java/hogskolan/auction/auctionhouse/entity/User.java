@@ -39,10 +39,11 @@ public class User {
         this.name = name;
     }
 
-    public User(String name, String password, String email) {
+    public User(String name, String password, String email, String role) {
         this.name = name;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
     public void addProduct(Product product) {
@@ -111,5 +112,14 @@ public class User {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "\nUserID:\t" + u_id +
+                "\nName:\t" + name +
+                "\nEmail:\t" + email +
+                "\nRole:\t" + role +
+                "\nStatus:\t" + status;
     }
 }

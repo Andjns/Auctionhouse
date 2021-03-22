@@ -37,6 +37,14 @@ public class IndexController {
         user.setRole("ROLE_ADMIN");
         user.setStatus(1);
         userRepository.save(user);
+
+        User user1 = new User();
+        user1.setName("Jens");
+        user1.setPassword(encoder.encode("b"));
+        user1.setEmail("b@b.b");
+        user1.setRole("ROLE_USER");
+        user1.setStatus(1);
+        userRepository.save(user1);
         return "redirect:/";
     }
 }

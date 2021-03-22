@@ -22,8 +22,6 @@ public class ProductController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private SendEmailService sendEmailService;
-    @Autowired
     private CategoryRepository categoryRepository;
 
     //show all products

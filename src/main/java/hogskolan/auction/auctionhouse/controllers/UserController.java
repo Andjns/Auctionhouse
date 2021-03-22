@@ -1,6 +1,7 @@
 package hogskolan.auction.auctionhouse.controllers;
 
 import hogskolan.auction.auctionhouse.entity.Product;
+import hogskolan.auction.auctionhouse.entity.Role;
 import hogskolan.auction.auctionhouse.entity.User;
 import hogskolan.auction.auctionhouse.repository.CategoryRepository;
 import hogskolan.auction.auctionhouse.repository.ProductRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,9 +40,10 @@ public class UserController {
     //Visas i tabellen i adminview
     @RequestMapping("/admin")
     public String showAdmin(Model model) {
-        model.addAttribute("add", productRepository.findAll());
+        model.addAttribute("products", productRepository.findAll());
         model.addAttribute("cat", categoryRepository.findAll());
         model.addAttribute("users", userRepository.findAll());
+        System.out.println(userRepository.findAll().get(1));
         return "adminview";
     }
 
@@ -48,6 +51,10 @@ public class UserController {
     //add user
     @RequestMapping("/admin/users/add")
     public String addUser(Model model) {
+        List<Role> roles = new ArrayList<>();
+        roles.add(new Role("ROLE_USER", true));
+        roles.add(new Role("ROLE_ADMIN", false));
+        model.addAttribute("roles", roles);
         model.addAttribute("user", userRepository.findAll());
         return "useraddview";
     }
@@ -72,7 +79,7 @@ public class UserController {
     @GetMapping("/admin/users/delete/{u_id}")
     public String deleteUserById(@PathVariable Integer u_id) {
         userRepository.deleteById(u_id);
-        return "redirect:/adminview";
+        return "redirect:/admin";
     }
 
 
@@ -84,13 +91,14 @@ public class UserController {
     }
 
     //update
-    @PostMapping("/users/update/{u_id}")
+    @PostMapping("/admin/users/update/{u_id}")
     public String updateUser(@RequestParam Map<String, String> allFormRequestParams, Integer u_id) {
         User user = userRepository.findById(u_id).get();
         user.setName(allFormRequestParams.get("name"));
         user.setEmail(allFormRequestParams.get("email"));
+        user.setPassword(allFormRequestParams.get("password"));
         userRepository.save(user);
-        return "redirect:/adminview";
+        return "redirect:/admin";
     }
 
     //User Page
