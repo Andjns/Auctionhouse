@@ -55,12 +55,12 @@ public class BidController {
         return "redirect:/userpage";
     }*/
 
-    @PostMapping("/bidinitdb")
+    @PostMapping("/addbid/{p_id}")
     public String addBidToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
         Bid bid = new Bid();
         bid.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
         Product product = productRepository.findById(Integer.parseInt(allFormRequestParams.get("p_id"))).get();
-        bid.setUser(userRepository.findById(2).get());
+        bid.setUser(userRepository.findByEmail(new SecurityController().loggedInUser()));
         product.addBid(bid);
         productRepository.save(product);
 

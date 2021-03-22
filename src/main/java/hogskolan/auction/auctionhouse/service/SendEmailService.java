@@ -12,11 +12,11 @@ public class SendEmailService {
     JavaMailSender javaMailSender;
 
     //sendMail when add product
-    public void sendEmail(String to, String body, String topic){
+    public void sendEmail(String to, String subject, String body){
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("h18jlagn@gmail.com");
         simpleMailMessage.setTo(to);
-        simpleMailMessage.setSubject(topic);
+        simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(body);
         javaMailSender.send(simpleMailMessage);
         System.out.println("sent email");
@@ -24,11 +24,11 @@ public class SendEmailService {
 
 
     //Send mail for when add bid
-    public void sendBidEmail(String to, String body, String topic, Integer price){
+    public void sendBidEmail(String to, String subject, String body, Integer price){
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("h18jlagn@gmail.com");
         simpleMailMessage.setTo(to);
-        simpleMailMessage.setSubject(topic);
+        simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(body);
         simpleMailMessage.setText(String.valueOf(price));
         javaMailSender.send(simpleMailMessage);

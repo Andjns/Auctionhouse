@@ -1,5 +1,6 @@
 package hogskolan.auction.auctionhouse.controllers;
 
+import hogskolan.auction.auctionhouse.entity.Category;
 import hogskolan.auction.auctionhouse.entity.User;
 import hogskolan.auction.auctionhouse.repository.CategoryRepository;
 import hogskolan.auction.auctionhouse.repository.ProductRepository;
@@ -19,26 +20,38 @@ public class IndexController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Autowired
     private PasswordEncoder encoder;
 
     @GetMapping("/initdb")
     public String init() {
-        User user = new User();
-        user.setName("Adrian");
-        user.setPassword(encoder.encode("a"));
-        user.setEmail("a@a.a");
-        user.setRole("ROLE_ADMIN");
-        user.setStatus(1);
-        userRepository.save(user);
-
         User user1 = new User();
-        user1.setName("Jens");
-        user1.setPassword(encoder.encode("b"));
-        user1.setEmail("b@b.b");
-        user1.setRole("ROLE_USER");
+        user1.setName("Adrian");
+        user1.setPassword(encoder.encode("a"));
+        user1.setEmail("a@a.a");
+        user1.setRole("ROLE_ADMIN");
         user1.setStatus(1);
+
+        User user2 = new User();
+        user2.setName("Jens");
+        user2.setPassword(encoder.encode("b"));
+        user2.setEmail("b@b.b");
+        user2.setRole("ROLE_USER");
+        user2.setStatus(1);
+
+        Category category1 = new Category("Beer");
+        Category category2 = new Category("Wine");
+        Category category3 = new Category("Spirit");
+
         userRepository.save(user1);
+        userRepository.save(user2);
+        categoryRepository.save(category1);
+        categoryRepository.save(category2);
+        categoryRepository.save(category3);
         return "redirect:/";
     }
 }

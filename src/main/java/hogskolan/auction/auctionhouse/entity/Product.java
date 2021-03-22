@@ -1,6 +1,7 @@
 package hogskolan.auction.auctionhouse.entity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,8 @@ public class Product {
     @Column(length = 800)
     private String img;
     private Integer price;
-
+    private LocalDateTime expires;
+    private Boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -112,5 +114,21 @@ public class Product {
 
     public void setAddbid(List<Bid> addbid) {
         this.addbid = addbid;
+    }
+
+    public LocalDateTime getExpires() {
+        return expires;
+    }
+
+    public void setExpires(LocalDateTime expires) {
+        this.expires = expires;
+    }
+
+    public Boolean getExpired() {
+        return expired;
+    }
+
+    public void setExpired(Boolean expired) {
+        this.expired = expired;
     }
 }
