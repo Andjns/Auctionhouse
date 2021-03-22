@@ -22,12 +22,6 @@ public class IndexController {
     @Autowired
     private PasswordEncoder encoder;
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
     @GetMapping("/initdb")
     public String init() {
         User user = new User();

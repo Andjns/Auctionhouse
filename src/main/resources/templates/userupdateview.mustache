@@ -13,7 +13,7 @@
 <div class="container" style="width: 500px; margin: auto;">
     <h1>Update User</h1>
 
-    <form method="POST" action="/users/update/{{user.u_id}}">
+    <form method="POST" action="/admin/users/update/{{user.u_id}}">
 
         <input type="hidden" name="u_id" class="form-control" value="{{user.u_id}}">
         <br>
@@ -22,8 +22,17 @@
 
         <label>Email</label>
         <input type="text" name="email" class="form-control" value="{{user.email}}">
+
+        <label>Password</label>
+        <input type="password" name="password" class="form-control" value="">
         <br>
-        <button class="btn btn-primary" type="submit">Add change</button>
+        <select name="role" id="role">
+            {{#roles}}
+                <option name="{{role}}" {{selected}}>{{role}}</option>
+            {{/roles}}
+        </select>
+        <br>        <br>
+        <button class="btn btn-primary" type="submit">Update user</button>
 
     </form>
 

@@ -43,7 +43,6 @@ public class UserController {
         model.addAttribute("products", productRepository.findAll());
         model.addAttribute("cat", categoryRepository.findAll());
         model.addAttribute("users", userRepository.findAll());
-        System.out.println(userRepository.findAll().get(1));
         return "adminview";
     }
 
@@ -55,7 +54,6 @@ public class UserController {
         roles.add(new Role("ROLE_USER", true));
         roles.add(new Role("ROLE_ADMIN", false));
         model.addAttribute("roles", roles);
-        model.addAttribute("user", userRepository.findAll());
         return "useraddview";
     }
 
@@ -69,6 +67,8 @@ public class UserController {
         user.setName(allFormRequestParams.get("name"));
         user.setPassword(encoder.encode(allFormRequestParams.get("password")));
         user.setEmail(allFormRequestParams.get("email"));
+        user.setRole(allFormRequestParams.get("role"));
+        user.setStatus(1);
 
         userRepository.save(user);
 
@@ -86,7 +86,18 @@ public class UserController {
     //update
     @GetMapping("/admin/users/update/{u_id}")
     public String updateUserById(Model model, @PathVariable Integer u_id) {
-        model.addAttribute("user", userRepository.findById(u_id).get());
+        User user = userRepository.findById(u_id).get();
+        model.addAttribute("user", user);
+        List<Role> roles = new ArrayList<>();
+        System.out.println(user);
+        if (user.getRole().equals("ROLE_USER")) {
+            roles.add(new Role("ROLE_USER", true));
+            roles.add(new Role("ROLE_ADMIN", false));
+        } else {
+            roles.add(new Role("ROLE_USER", false));
+            roles.add(new Role("ROLE_ADMIN", true));
+        }
+        model.addAttribute("roles", roles);
         return "userupdateview";
     }
 
@@ -96,7 +107,9 @@ public class UserController {
         User user = userRepository.findById(u_id).get();
         user.setName(allFormRequestParams.get("name"));
         user.setEmail(allFormRequestParams.get("email"));
-        user.setPassword(allFormRequestParams.get("password"));
+        user.setPassword(encoder.encode(allFormRequestParams.get("password")));
+        user.setRole(allFormRequestParams.get("role"));
+        System.out.println(user);
         userRepository.save(user);
         return "redirect:/admin";
     }
