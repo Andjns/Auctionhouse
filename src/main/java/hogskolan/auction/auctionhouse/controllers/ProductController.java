@@ -107,7 +107,7 @@ public class ProductController {
     @Autowired
     SecurityController sec = new SecurityController();
 
-    @PostMapping("/products/add")
+    @PostMapping("/product/add")
     public String addProductToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
         Product product = new Product();
         product.setName(allFormRequestParams.get("name"));
@@ -133,7 +133,7 @@ public class ProductController {
                         "\nImage link: " + product.getImg() +
                         "\nStarting price: " + product.getPrice();
         sendEmailService.sendEmail(user.getEmail(), title, body);
-        return "redirect:/products";
+        return "redirect:/admin";
     }
 
     //delete product
