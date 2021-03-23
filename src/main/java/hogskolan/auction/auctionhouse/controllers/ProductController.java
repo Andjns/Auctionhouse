@@ -59,7 +59,7 @@ public class ProductController {
         model.addAttribute("hasNext", pagedResult.hasNext());
         model.addAttribute("hasPrevious", pagedResult.hasPrevious());
         model.addAttribute("products", listProducts);//set the list with the 3 products
-        model.addAttribute("pricedesc", bidRepository.findByOrderByPriceAsc());
+        model.addAttribute("pricedesc", bidRepository.findTop3ByOrderByPriceDesc());
         return "productallview";
 
     }
@@ -95,7 +95,7 @@ public class ProductController {
         model.addAttribute("hasNext", pagedResult.hasNext());
         model.addAttribute("hasPrevious", pagedResult.hasPrevious());
         model.addAttribute("products", listProducts);//set the list with the 3 products
-        model.addAttribute("pricedesc", bidRepository.findByOrderByPriceAsc());
+        model.addAttribute("pricedesc", bidRepository.findTop3ByOrderByPriceDesc());
         return "productallview";
 
     }
@@ -170,7 +170,7 @@ public class ProductController {
         return  "redirect:/admin";
     }
 
-
+/*
     //products by category
     //beer
     @GetMapping("/products/beer/page/{pageno}")
@@ -200,6 +200,8 @@ public class ProductController {
         return "productallview";
 
     }
+
+ */
 
 
 

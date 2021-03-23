@@ -41,8 +41,9 @@
                     <p>Seller: <a href="/user/sellerinfo/{{user.u_id}}">{{user.email}}</a></p>
                     <p>Starting price: {{price}}</p>
                     <p>Expires at: {{expires}}</p>
-                    <p>Bid:</p>
+                    <p>Top 3:</p>
                     {{#pricedesc}}<p>{{price}} </p>{{/pricedesc}}
+                    <p><a href="/user/allbids/{{p_id}}">See all bids</a></p>
                     <br>
                     <a href="/addbid/{{p_id}}">Add a bid</a>
                 </div>

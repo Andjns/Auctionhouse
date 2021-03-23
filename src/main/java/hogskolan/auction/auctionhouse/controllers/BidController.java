@@ -32,6 +32,13 @@ public class BidController {
 @Autowired
     SendEmailService sendEmailService;
 
+    //show all bids
+    @GetMapping("/user/allbids/{p_id}")
+    public String getAllBids(Model model, @PathVariable Integer p_id) {
+        model.addAttribute("bids", bidRepository.findAllByProduct(productRepository.findById(p_id).get()));
+        return "showallbidsview";
+    }
+
     //add bid
     @RequestMapping("/addbid/{p_id}")
     public String addBid(Model model, @PathVariable Integer p_id) {
