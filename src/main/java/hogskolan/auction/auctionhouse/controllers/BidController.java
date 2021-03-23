@@ -44,10 +44,10 @@ public class BidController {
     SecurityController sec = new SecurityController();
 
     @PostMapping("/addbid/{p_id}")
-    public String addBidToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
+    public String addBidToDB(@RequestParam Integer p_id, @RequestParam Map<String, String> allFormRequestParams) {
         Bid bid = new Bid();
         bid.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
-        Product product = productRepository.findById(Integer.parseInt(allFormRequestParams.get("p_id"))).get();
+        Product product = productRepository.findById(p_id).get();
         User user = userRepository.findByEmail(sec.loggedInUser());
         bid.setUser(userRepository.findByEmail(new SecurityController().loggedInUser()));
         product.addBid(bid);
