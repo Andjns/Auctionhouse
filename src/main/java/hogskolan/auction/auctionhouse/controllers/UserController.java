@@ -117,4 +117,13 @@ public class UserController {
         userRepository.save(user);
         return "redirect:/admin";
     }
+
+    //see seller info
+
+    @GetMapping("/user/sellerinfo/{u_id}")
+    public String sellerInfo(Model model, @PathVariable Integer u_id) {
+        model.addAttribute("user", userRepository.findById(u_id).get());
+        return "sellerinfoview";
+    }
+
 }

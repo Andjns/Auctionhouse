@@ -34,6 +34,7 @@ public class ProductController {
     @Autowired
     private BidRepository bidRepository;
 
+
     //Show all products med paging
     @GetMapping("/products/page/{pageno}")
     public String showPage(@PathVariable() Integer pageno, Model model) {
@@ -62,6 +63,8 @@ public class ProductController {
         return "productallview";
 
     }
+
+
 
     //Show all products med paging
     @GetMapping("/products/user/{u_id}/page/{pageno}")

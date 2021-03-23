@@ -35,9 +35,10 @@
                 <div class="card-body">
                     <h4>{{name}}</h4>
                     <p>{{description}}</p>
+                    <p>Seller: <a href="/user/sellerinfo/{{user.u_id}}">{{user.email}}</a></p>
                     <p>Starting price: {{price}}</p>
                     <p>Expires at: {{expires}}</p>
-                    <p>Bud:</p>
+                    <p>Bid:</p>
                     {{#pricedesc}}<p>{{price}} </p>{{/pricedesc}}
                     <br>
                     <a href="/addbid/{{p_id}}">Add a bid</a>
