@@ -107,7 +107,7 @@ public class ProductController {
     @Autowired
     SecurityController sec = new SecurityController();
 
-    @PostMapping("/product/add")
+    @PostMapping("/products/add")
     public String addProductToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
         Product product = new Product();
         product.setName(allFormRequestParams.get("name"));
@@ -133,14 +133,20 @@ public class ProductController {
                         "\nImage link: " + product.getImg() +
                         "\nStarting price: " + product.getPrice();
         sendEmailService.sendEmail(user.getEmail(), title, body);
-        return "redirect:/admin";
+
+        if (user.getRole().equals("ROLE_ADMIN")) {
+            return "redirect:/admin";
+        }
+        else {
+            return "redirect:/products";
+        }
     }
 
     //delete product
     @GetMapping("/products/delete/{p_id}")
     public String deleteProductById(@PathVariable Integer p_id) {
         productRepository.deleteById(p_id);
-        return "redirect:/products";
+        return "redirect:/admin";
     }
 
     //update product
@@ -156,7 +162,7 @@ public class ProductController {
         product.setName(allFormRequestParams.get("name"));
         product.setDescription(allFormRequestParams.get("description"));
         productRepository.save(product);
-        return "redirect:/products";
+        return  "redirect:/admin";
     }
 
 
