@@ -24,13 +24,16 @@
             <a class="nav-item nav-link" href="/products/page/0">All products</a>
             <a class="nav-item nav-link" href="/products/user/page/0">My products</a>
             <a class="nav-item nav-link" href="/logout">Log out</a>
+            <p class="nav-item nav-link">Categories:</p>
+            <a class="nav-item nav-link" href="/products/beer/page/0">Beer</a>
+            <a class="nav-item nav-link" href="/products/wine/page/0">Wine</a>
+            <a class="nav-item nav-link" href="/products/spirit/page/0">Spirit</a>
         </div>
     </div>
 </nav>
 
 <h2 style="text-align: center; color: royalblue;"> Welcome! These are our products up for auction.</h2>
 <div class="container">
-
 
 
     <div class="card-columns" style="flex: border-box">
@@ -43,6 +46,7 @@
                     <p>Seller: <a href="/user/sellerinfo/{{user.u_id}}">{{user.email}}</a></p>
                     <p>Starting price: {{price}}</p>
                     <p>Expires at: {{expires}}</p>
+                    <p>Expired: {{expired}}</p>
                     <p>Top 3:</p>
                     <ol>
                         {{#bids}}

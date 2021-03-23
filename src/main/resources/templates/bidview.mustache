@@ -28,6 +28,7 @@
 </nav>
 <div class="container" style="width: 500px; margin: auto;">
     <h1>Add your bid!</h1>
+    <h2>{{expired}}</h2>
 
     <form method="POST" action="/addbid/{{product.p_id}}">
         <input type="hidden" name="p_id" class="form-control" value="{{product.p_id}}">

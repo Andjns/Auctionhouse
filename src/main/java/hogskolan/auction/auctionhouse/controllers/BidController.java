@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -30,15 +32,29 @@ public class BidController {
     SendEmailService sendEmailService;
 
     //show all bids
-    @GetMapping("/user/allbids/{p_id}")
+    @GetMapping("/products/allbids/{p_id}")
     public String getAllBids(Model model, @PathVariable Integer p_id) {
-        model.addAttribute("bids", bidRepository.findAllByProduct(productRepository.findById(p_id).get()));
+        Product product = productRepository.findById(p_id).get();
+        List<Bid> bids = bidRepository.findAllByProduct(product);
+        Collections.sort(bids, Collections.reverseOrder());
+        if (product.getExpired()) {
+            model.addAttribute("expired", "THIS AUCTION HAS EXPIRED");
+        } else {
+            model.addAttribute("expired", "");
+        }
+        model.addAttribute("bids", bids);
         return "productallbidsview";
     }
 
     //add bid
     @RequestMapping("/addbid/{p_id}")
     public String addBid(Model model, @PathVariable Integer p_id) {
+        Product product = productRepository.findById(p_id).get();
+        if (product.getExpired()) {
+            model.addAttribute("expired", "THIS AUCTION HAS EXPIRED");
+        } else {
+            model.addAttribute("expired", "");
+        }
         model.addAttribute("product", productRepository.findById(p_id).get());
 
 
@@ -49,26 +65,25 @@ public class BidController {
 
     @PostMapping("/addbid/{p_id}")
     public String addBid(@PathVariable Integer p_id, @RequestParam Map<String, String> allFormRequestParams) {
-        User user = userRepository.findByEmail(new SecurityController().loggedInUser());
-        Bid bid = new Bid();
-        bid.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
-        bid.setUser(user);
+        if (!productRepository.findById(p_id).get().getExpired()) {
+            User user = userRepository.findByEmail(new SecurityController().loggedInUser());
+            Bid bid = new Bid();
+            bid.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
+            bid.setUser(user);
 
-        Product product = productRepository.findById(p_id).get();
-        product.addBid(bid);
+            Product product = productRepository.findById(p_id).get();
+            product.addBid(bid);
 
-        bidRepository.save(bid);
-        productRepository.save(product);
-        String title =
-                "You bid on a product with the name " +
-                        product.getName();
-        String body =
-                "Your bid: \n" +
-                        "Bid: " + bid.getPrice();
-        sendEmailService.sendEmail(user.getEmail(), title, body);
+            bidRepository.save(bid);
+            productRepository.save(product);
+            String title =
+                    "You bid on a product with the name " +
+                            product.getName();
+            String body =
+                    "Your bid: \n" +
+                            "Bid: " + bid.getPrice();
+            sendEmailService.sendEmail(user.getEmail(), title, body);
+        }
         return "redirect:/products/page/0";
     }
-
-
-
 }//end class
