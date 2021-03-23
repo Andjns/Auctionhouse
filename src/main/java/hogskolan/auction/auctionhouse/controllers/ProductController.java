@@ -169,4 +169,39 @@ public class ProductController {
         productRepository.save(product);
         return  "redirect:/admin";
     }
+
+/*
+    //products by category
+    //beer
+    @GetMapping("/products/beer/page/{pageno}")
+    public String showBeerPage(@PathVariable() Integer pageno, Model model) {
+
+        if (pageno<0 || pageno == null) {
+            pageno = 0;
+        }
+        final int PAGESIZE = 3; //number of product on each page
+        //get the next page based on its pagenumber, zerobased
+        //also set pagesize, the number of products on the page
+        PageRequest paging = PageRequest.of(pageno, PAGESIZE);
+        Page<Product> pagedResult = productRepository.findAllByCategory(1, paging);
+        List<Product> listProducts;
+        //returns the page content our 3 products as List
+        listProducts = pagedResult.getContent();
+        model.addAttribute("currentPageNumber", pagedResult.getNumber()); //zerobased
+        model.addAttribute("displayableCurrentPageNumber", pagedResult.getNumber()+1);
+        model.addAttribute("nextPageNumber", pageno+1); //going forward to next page
+        model.addAttribute("previousPageNumber", pageno-1); //going backwards to previous page
+        model.addAttribute("totalPages", pagedResult.getTotalPages());
+        model.addAttribute("totalItems", pagedResult.getTotalElements());
+        model.addAttribute("hasNext", pagedResult.hasNext());
+        model.addAttribute("hasPrevious", pagedResult.hasPrevious());
+        model.addAttribute("products", listProducts);//set the list with the 3 products
+        model.addAttribute("pricedesc", bidRepository.findByOrderByPriceAsc());
+        return "productallview";
+
+    }
+
+ */
+
+
 }//end Controller class

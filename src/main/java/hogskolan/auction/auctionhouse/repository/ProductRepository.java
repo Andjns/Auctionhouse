@@ -1,5 +1,6 @@
 package hogskolan.auction.auctionhouse.repository;
 
+import hogskolan.auction.auctionhouse.entity.Category;
 import hogskolan.auction.auctionhouse.entity.Product;
 import hogskolan.auction.auctionhouse.entity.User;
 import org.springframework.data.domain.Pageable;
@@ -9,4 +10,5 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByUser(User user, Pageable pageable);
+    List<Product> findAllByCategory(Category category, Pageable pageable);
 }

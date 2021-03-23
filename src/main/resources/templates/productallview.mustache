@@ -28,6 +28,9 @@
 
 <h2 style="text-align: center; color: royalblue;"> Welcome! These are our products up for auction.</h2>
 <div class="container">
+
+
+
     <div class="card-columns" style="flex: border-box">
         {{#products}}
             <div class="card" style="margin: 30px">
@@ -50,13 +53,13 @@
 
     Page {{displayableCurrentPageNumber}} of {{totalPages}}<br>
     {{#hasPrevious}}
-        <a href="/page/{{previousPageNumber}}">
+        <a href="/products/page/{{previousPageNumber}}">
             Previous page
         </a>
     {{/hasPrevious}}
     |
     {{#hasNext}}
-        <a href="/page/{{nextPageNumber}}">
+        <a href="/products/page/{{nextPageNumber}}">
             Next page
         </a>
     {{/hasNext}}
