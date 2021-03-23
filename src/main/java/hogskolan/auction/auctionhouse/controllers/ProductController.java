@@ -170,7 +170,7 @@ public class ProductController {
         return  "redirect:/admin";
     }
 
-/*
+
     //products by category
     //beer
     @GetMapping("/products/beer/page/{pageno}")
@@ -183,7 +183,7 @@ public class ProductController {
         //get the next page based on its pagenumber, zerobased
         //also set pagesize, the number of products on the page
         PageRequest paging = PageRequest.of(pageno, PAGESIZE);
-        Page<Product> pagedResult = productRepository.findAllByCategory(1, paging);
+        Page<Product> pagedResult = productRepository.findAllByCategory(categoryRepository.findByName("Beer"), paging);
         List<Product> listProducts;
         //returns the page content our 3 products as List
         listProducts = pagedResult.getContent();
@@ -201,7 +201,7 @@ public class ProductController {
 
     }
 
- */
+
 
 
 }//end Controller class
