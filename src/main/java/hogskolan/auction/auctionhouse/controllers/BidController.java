@@ -40,36 +40,28 @@ public class BidController {
 
         return "bidview";
     }
-
-
-
-    /* fungerande bid kod, utan mailsender
-    @PostMapping("/bidinitdb")
-    public String addBidToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
-        Bid bid = new Bid();
-        bid.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
-        Product product = productRepository.findById(Integer.parseInt(allFormRequestParams.get("p_id"))).get();
-        bid.setUser(userRepository.findById(2).get());
-        product.addBid(bid);
-        productRepository.save(product);
-        return "redirect:/userpage";
-    }*/
+    @Autowired
+    SecurityController sec = new SecurityController();
 
     @PostMapping("/addbid/{p_id}")
     public String addBidToDB(Model model, @RequestParam Map<String, String> allFormRequestParams) {
         Bid bid = new Bid();
         bid.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
         Product product = productRepository.findById(Integer.parseInt(allFormRequestParams.get("p_id"))).get();
+        User user = userRepository.findByEmail(sec.loggedInUser());
         bid.setUser(userRepository.findByEmail(new SecurityController().loggedInUser()));
         product.addBid(bid);
         productRepository.save(product);
-
-       /* List<String> Bidmails = new ArrayList<>();
-        for (User user : userRepository.findAll()) {
-            Bidmails.add(user.getEmail());
-            sendEmailService.sendBidEmail(user.getEmail(), product.getName(), product.getDescription(), bid.getPrice());
-        }
-        model.addAttribute("mail", Bidmails);*/
+        String title =
+                "You did a bid on a product with the name " +
+                        product.getName();
+        String body =
+                "The auction's details: \n" +
+                        "Description: " + product.getDescription() +
+                        "\nImage link: " + product.getImg() +
+                        "\nStarting price: " + product.getPrice() +
+                        "\nBid: " + bid.getPrice();
+        sendEmailService.sendEmail(user.getEmail(), title, body);
         return "redirect:/products/page/0";
     }
 
