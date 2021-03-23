@@ -1,15 +1,15 @@
 package hogskolan.auction.auctionhouse.controllers;
 
-import hogskolan.auction.auctionhouse.entity.Product;
 import hogskolan.auction.auctionhouse.entity.Role;
 import hogskolan.auction.auctionhouse.entity.User;
 import hogskolan.auction.auctionhouse.repository.BidRepository;
 import hogskolan.auction.auctionhouse.repository.CategoryRepository;
 import hogskolan.auction.auctionhouse.repository.ProductRepository;
 import hogskolan.auction.auctionhouse.repository.UserRepository;
+import hogskolan.auction.auctionhouse.savestrategy.SaveContext;
+import hogskolan.auction.auctionhouse.savestrategy.TextSaveStrategy;
+import hogskolan.auction.auctionhouse.savestrategy.UserSaveStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +30,8 @@ public class UserController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+
 
     @Autowired
     private BidRepository bidRepository;
@@ -58,6 +60,7 @@ public class UserController {
         roles.add(new Role("ROLE_USER", true));
         roles.add(new Role("ROLE_ADMIN", false));
         model.addAttribute("roles", roles);
+
         return "useraddview";
     }
 
@@ -73,8 +76,13 @@ public class UserController {
         user.setEmail(allFormRequestParams.get("email"));
         user.setRole(allFormRequestParams.get("role"));
         user.setStatus(1);
-
         userRepository.save(user);
+
+        UserSaveStrategy userSaveStrategy = new TextSaveStrategy();
+        SaveContext context = new SaveContext(userSaveStrategy);
+        context = new SaveContext(userSaveStrategy);
+        context.save(user);
+
 
         return "redirect:/admin";
     }
@@ -115,6 +123,7 @@ public class UserController {
         user.setRole(allFormRequestParams.get("role"));
         System.out.println(user);
         userRepository.save(user);
+
         return "redirect:/admin";
     }
 

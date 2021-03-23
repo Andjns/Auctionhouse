@@ -1,3 +1,4 @@
 Fredde;c@c.c;fredde
 asd;asd@asd.com;asdasd
 julia;julia@julia.com;asd
+TextfilText;text@email.com;$2a$10$nPD4b1G.6Gnlcdm9KMWx2u72LCza15SlfyOm9.DFigd/OTtghvQIy;ROLE_USER
