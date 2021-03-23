@@ -2,3 +2,4 @@ Fredde;c@c.c;fredde
 asd;asd@asd.com;asdasd
 julia;julia@julia.com;asd
 TextfilText;text@email.com;$2a$10$nPD4b1G.6Gnlcdm9KMWx2u72LCza15SlfyOm9.DFigd/OTtghvQIy;ROLE_USER
+Julia;Julia@email.hej;$2a$10$LxVW6/r93b1wvkyBi.8fFeCVHXp0VsDbcKyx6P2TVoRmrP0K11jlW;ROLE_USER

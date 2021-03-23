@@ -162,7 +162,7 @@ public class ProductController {
         if (user.getRole().equals("ROLE_ADMIN")) {
             return "redirect:/admin";
         } else {
-            return "redirect:/products";
+            return "redirect:/products/page/0";
         }
     }
 
