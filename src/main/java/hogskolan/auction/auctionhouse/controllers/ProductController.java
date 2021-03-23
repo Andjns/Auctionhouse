@@ -42,10 +42,6 @@ public class ProductController {
     @GetMapping("/products/page/{pageno}")
     public String showPage(@PathVariable() Integer pageno, Model model) {
         for (Product product : productRepository.findAll()) {
-            System.out.println(product.getExpires());
-            System.out.println(product.getExpired());
-            System.out.println(LocalDateTime.now());
-            System.out.println(product.getExpires().isAfter(LocalDateTime.now()));
             if (LocalDateTime.now().isAfter(product.getExpires()) && !product.getExpired()) {
                 product.setExpired(true);
                 List<Bid> bids = bidRepository.findAllByProduct(product);
@@ -101,6 +97,19 @@ public class ProductController {
     //Show all products med paging
     @GetMapping("/products/user/page/{pageno}")
     public String showPageForUser(@PathVariable() Integer pageno, Model model) {
+        for (Product product : productRepository.findAll()) {
+            if (LocalDateTime.now().isAfter(product.getExpires()) && !product.getExpired()) {
+                product.setExpired(true);
+                List<Bid> bids = bidRepository.findAllByProduct(product);
+                Collections.sort(bids, Collections.reverseOrder());
+                Bid winningBid = bids.get(0);
+                String subject = "You have won!";
+                String body = "Auction with name: " + product.getName() + " have been won by you!\nAmount to pay is: " +
+                        winningBid.getPrice();
+                sendEmailService.sendWinnerEmail(product.getUser().getEmail(), subject, body);
+                productRepository.save(product);
+            }
+        }
 
         if (pageno < 0 || pageno == null) {
             pageno = 0;
@@ -250,5 +259,21 @@ public class ProductController {
         product.setDescription(allFormRequestParams.get("description"));
         productRepository.save(product);
         return "redirect:/admin";
+    }
+
+    @GetMapping("/products/winner/{p_id}")
+    public String seeWinner(@PathVariable Integer p_id, Model model) {
+        Product product = productRepository.findById(p_id).get();
+        if (product.getExpired()) {
+            List<Bid> bids = bidRepository.findAllByProduct(product);
+            Collections.sort(bids, Collections.reverseOrder());
+            Bid winningBid = bids.get(0);
+            User winner = winningBid.getUser();
+            model.addAttribute("text", "This auction was won by user with email: " + winner.getEmail() +
+                    "\nWinning bid: " + winningBid.getPrice());
+        } else {
+            model.addAttribute("text", "This auction is still ongoing.");
+        }
+        return "productwinnerview";
     }
 }//end Controller class
