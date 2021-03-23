@@ -1,6 +1,5 @@
 package hogskolan.auction.auctionhouse.controllers;
 
-import hogskolan.auction.auctionhouse.entity.Product;
 import hogskolan.auction.auctionhouse.entity.Role;
 import hogskolan.auction.auctionhouse.entity.User;
 import hogskolan.auction.auctionhouse.repository.BidRepository;
@@ -8,8 +7,6 @@ import hogskolan.auction.auctionhouse.repository.CategoryRepository;
 import hogskolan.auction.auctionhouse.repository.ProductRepository;
 import hogskolan.auction.auctionhouse.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -123,7 +120,7 @@ public class UserController {
     @GetMapping("/user/sellerinfo/{u_id}")
     public String sellerInfo(Model model, @PathVariable Integer u_id) {
         model.addAttribute("user", userRepository.findById(u_id).get());
-        return "sellerinfoview";
+        return "usersellerinfoview";
     }
 
 }

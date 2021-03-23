@@ -23,14 +23,14 @@ public class User {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Product> addprod = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Bid> addbid = new ArrayList<>();
+    private List<Bid> bids = new ArrayList<>();
 
     public User() {
     }
@@ -47,20 +47,20 @@ public class User {
     }
 
     public void addProduct(Product product) {
-        addprod.add(product);
+        products.add(product);
         product.setUser(this);
     }
     public void removeProduct(Product product) {
-        addprod.remove(product);
+        products.remove(product);
         product.setUser(this);
     }
 
     public void addBid(Bid bid) {
-        addbid.add(bid);
+        bids.add(bid);
         bid.setUser(this);
     }
     public void removeBid(Bid bid) {
-        addbid.remove(bid);
+        bids.remove(bid);
         bid.setUser(this);
     }
 
@@ -112,6 +112,22 @@ public class User {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
     }
 
     @Override

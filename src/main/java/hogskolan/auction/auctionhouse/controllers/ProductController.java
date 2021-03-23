@@ -1,5 +1,6 @@
 package hogskolan.auction.auctionhouse.controllers;
 
+import hogskolan.auction.auctionhouse.entity.Bid;
 import hogskolan.auction.auctionhouse.entity.Category;
 import hogskolan.auction.auctionhouse.entity.Product;
 import hogskolan.auction.auctionhouse.entity.User;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +42,7 @@ public class ProductController {
     @GetMapping("/products/page/{pageno}")
     public String showPage(@PathVariable() Integer pageno, Model model) {
 
-        if (pageno<0 || pageno == null) {
+        if (pageno < 0 || pageno == null) {
             pageno = 0;
         }
         final int PAGESIZE = 3; //number of product on each page
@@ -51,51 +54,68 @@ public class ProductController {
         //returns the page content our 3 products as List
         listProducts = pagedResult.getContent();
         model.addAttribute("currentPageNumber", pagedResult.getNumber()); //zerobased
-        model.addAttribute("displayableCurrentPageNumber", pagedResult.getNumber()+1);
-        model.addAttribute("nextPageNumber", pageno+1); //going forward to next page
-        model.addAttribute("previousPageNumber", pageno-1); //going backwards to previous page
+        model.addAttribute("displayableCurrentPageNumber", pagedResult.getNumber() + 1);
+        model.addAttribute("nextPageNumber", pageno + 1); //going forward to next page
+        model.addAttribute("previousPageNumber", pageno - 1); //going backwards to previous page
         model.addAttribute("totalPages", pagedResult.getTotalPages());
         model.addAttribute("totalItems", pagedResult.getTotalElements());
         model.addAttribute("hasNext", pagedResult.hasNext());
         model.addAttribute("hasPrevious", pagedResult.hasPrevious());
+
+        for (Product product : listProducts) {
+            product.setBids(new ArrayList<Bid>());
+            List<Bid> bids = bidRepository.findAllByProduct(product);
+            Collections.sort(bids, Collections.reverseOrder());
+            for (Bid bid : bids.subList(0,Math.min(bids.size(), 3))) {
+                product.addBid(bid);
+            }
+        }
         model.addAttribute("products", listProducts);//set the list with the 3 products
-        model.addAttribute("pricedesc", bidRepository.findTop3ByOrderByPriceDesc());
         return "productallview";
 
     }
 
 
-
     //Show all products med paging
-    @GetMapping("/products/user/{u_id}/page/{pageno}")
-    public String showPageForUser(@PathVariable() Integer pageno, @PathVariable() Integer u_id, Model model) {
+    @GetMapping("/products/user/page/{pageno}")
+    public String showPageForUser(@PathVariable() Integer pageno, Model model) {
 
-        if (pageno<0 || pageno == null) {
+        if (pageno < 0 || pageno == null) {
             pageno = 0;
         }
         final int PAGESIZE = 3; //number of product on each page
         //get the next page based on its pagenumber, zerobased
         //also set pagesize, the number of products on the page
 
+        User user = userRepository.findByEmail(sec.loggedInUser());
         Pageable all = PageRequest.of(pageno, PAGESIZE);
-        List<Product> allProductsByUser = productRepository.findAllByUser(userRepository.findByEmail(sec.loggedInUser()), all);
-        System.out.println(allProductsByUser);
+        List<Product> allProductsByUser = user.getProducts();
 
         PageRequest paging = PageRequest.of(pageno, PAGESIZE);
-        Page<Product> pagedResult = productRepository.findAll(paging);
+        Page<Product> pagedResult = productRepository.findAllByUser(user, paging);
         List<Product> listProducts;
         //returns the page content our 3 products as List
         listProducts = pagedResult.getContent();
         model.addAttribute("currentPageNumber", pagedResult.getNumber()); //zerobased
-        model.addAttribute("displayableCurrentPageNumber", pagedResult.getNumber()+1);
-        model.addAttribute("nextPageNumber", pageno+1); //going forward to next page
-        model.addAttribute("previousPageNumber", pageno-1); //going backwards to previous page
+        model.addAttribute("displayableCurrentPageNumber", pagedResult.getNumber() + 1);
+        model.addAttribute("nextPageNumber", pageno + 1); //going forward to next page
+        model.addAttribute("previousPageNumber", pageno - 1); //going backwards to previous page
         model.addAttribute("totalPages", pagedResult.getTotalPages());
         model.addAttribute("totalItems", pagedResult.getTotalElements());
         model.addAttribute("hasNext", pagedResult.hasNext());
         model.addAttribute("hasPrevious", pagedResult.hasPrevious());
+
+        for (Product product : listProducts) {
+            product.setBids(new ArrayList<Bid>());
+            List<Bid> bids = bidRepository.findAllByProduct(product);
+            Collections.sort(bids, Collections.reverseOrder());
+            for (Bid bid : bids.subList(0,Math.min(bids.size(), 3))) {
+                product.addBid(bid);
+            }
+        }
+
         model.addAttribute("products", listProducts);//set the list with the 3 products
-        model.addAttribute("pricedesc", bidRepository.findTop3ByOrderByPriceDesc());
+        //model.addAttribute("pricedesc", bidRepository.findTop3ByOrderByPriceDesc());
         return "productallview";
 
     }
@@ -141,8 +161,7 @@ public class ProductController {
 
         if (user.getRole().equals("ROLE_ADMIN")) {
             return "redirect:/admin";
-        }
-        else {
+        } else {
             return "redirect:/products";
         }
     }
@@ -167,7 +186,16 @@ public class ProductController {
         product.setName(allFormRequestParams.get("name"));
         product.setDescription(allFormRequestParams.get("description"));
         productRepository.save(product);
-        return  "redirect:/admin";
+        return "redirect:/admin";
+    }
+
+    //show all bids
+    @GetMapping("/products/allbids/{p_id}")
+    public String getAllBids(Model model, @PathVariable Integer p_id) {
+        List<Bid> bids = bidRepository.findAllByProduct(productRepository.findById(p_id).get());
+        Collections.sort(bids, Collections.reverseOrder());
+        model.addAttribute("bids", bids);
+        return "productallbidsview";
     }
 
 /*
@@ -183,6 +211,7 @@ public class ProductController {
         //get the next page based on its pagenumber, zerobased
         //also set pagesize, the number of products on the page
         PageRequest paging = PageRequest.of(pageno, PAGESIZE);
+        /*
         Page<Product> pagedResult = productRepository.findAllByCategory(categoryRepository.findByName("Beer"), paging);
         List<Product> listProducts;
         //returns the page content our 3 products as List
@@ -197,13 +226,11 @@ public class ProductController {
         model.addAttribute("hasPrevious", pagedResult.hasPrevious());
         model.addAttribute("products", listProducts);//set the list with the 3 products
         model.addAttribute("pricedesc", bidRepository.findByOrderByPriceAsc());
-        return "productallview";
+        return"productallview";
 
-    }
+}
 
  */
-
-
 
 
 }//end Controller class

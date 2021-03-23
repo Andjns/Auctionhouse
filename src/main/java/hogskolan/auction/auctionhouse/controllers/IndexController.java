@@ -3,7 +3,6 @@ package hogskolan.auction.auctionhouse.controllers;
 import hogskolan.auction.auctionhouse.entity.Category;
 import hogskolan.auction.auctionhouse.entity.User;
 import hogskolan.auction.auctionhouse.repository.CategoryRepository;
-import hogskolan.auction.auctionhouse.repository.ProductRepository;
 import hogskolan.auction.auctionhouse.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,11 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class IndexController {
-    @GetMapping("/")
-    public String showIndex(Model model) {
-        return "indexview";
-    }
-
     @Autowired
     private UserRepository userRepository;
 
@@ -26,6 +20,12 @@ public class IndexController {
 
     @Autowired
     private PasswordEncoder encoder;
+
+    @GetMapping("/")
+    public String showIndex(Model model) {
+
+        return "indexview";
+    }
 
     @GetMapping("/initdb")
     public String init() {

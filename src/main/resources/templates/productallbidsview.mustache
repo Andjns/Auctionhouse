@@ -26,25 +26,17 @@
         </div>
     </div>
 </nav>
-<div class="container" style="width: 500px; margin: auto;">
-    <h1>Add your bid!</h1>
+<div class="container">
+    <h2>All bids</h2>
+    <ol>
+        {{#bids}}
+            <li>
+                {{price}}kr <i class="small"> by {{user.email}}</i>
+            </li>
+        {{/bids}}
+    </ol>
 
-    <form method="POST" action="/addbid/{{product.p_id}}">
-        <input type="hidden" name="p_id" class="form-control" value="{{product.p_id}}">
-        <br>
-        <label>Name</label>
-        <input type="text" name="name" class="form-control" value="{{product.name}}" readonly>
-
-        <label>Description</label>
-        <input type="text" name="description" class="form-control" value="{{product.description}}" readonly>
-        <br>
-
-        <label>Add your bid here:</label>
-        <input type="text" name="price" class="form-control" value="">
-        <br>
-        <button class="btn btn-primary" type="submit">Add Bid</button>
-
-    </form>
+    <a href="/products/page/0">Back to front page</a>
 </div>
 </body>
 </html>

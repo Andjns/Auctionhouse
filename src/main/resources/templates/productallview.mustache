@@ -20,8 +20,10 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link active" href="/">Home</a>
-            <a class="nav-item nav-link" href="/products/add">Add Product</a>
-            <a class="nav-item nav-link" href="products">My Products</a>
+            <a class="nav-item nav-link" href="/products/add">Add product</a>
+            <a class="nav-item nav-link" href="/products/page/0">All products</a>
+            <a class="nav-item nav-link" href="/products/user/page/0">My products</a>
+            <a class="nav-item nav-link" href="/logout">Log out</a>
         </div>
     </div>
 </nav>
@@ -42,13 +44,19 @@
                     <p>Starting price: {{price}}</p>
                     <p>Expires at: {{expires}}</p>
                     <p>Top 3:</p>
-                    {{#pricedesc}}<p>{{price}} </p>{{/pricedesc}}
-                    <p><a href="/user/allbids/{{p_id}}">See all bids</a></p>
+                    <ol>
+                        {{#bids}}
+                            <li>
+                                <p>{{price}}</p>
+                            </li>
+                        {{/bids}}
+                    </ol>
+                    <p><a href="/products/allbids/{{p_id}}">See all bids</a></p>
                     <br>
                     <a href="/addbid/{{p_id}}">Add a bid</a>
                 </div>
             </div>
-            {{/products}}
+        {{/products}}
         <br>
     </div>
 

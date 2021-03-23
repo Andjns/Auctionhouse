@@ -1,7 +1,6 @@
 package hogskolan.auction.auctionhouse.controllers;
 
 import hogskolan.auction.auctionhouse.entity.Bid;
-import hogskolan.auction.auctionhouse.entity.Category;
 import hogskolan.auction.auctionhouse.entity.Product;
 import hogskolan.auction.auctionhouse.entity.User;
 import hogskolan.auction.auctionhouse.repository.BidRepository;
@@ -14,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -36,7 +33,7 @@ public class BidController {
     @GetMapping("/user/allbids/{p_id}")
     public String getAllBids(Model model, @PathVariable Integer p_id) {
         model.addAttribute("bids", bidRepository.findAllByProduct(productRepository.findById(p_id).get()));
-        return "showallbidsview";
+        return "productallbidsview";
     }
 
     //add bid
@@ -51,16 +48,19 @@ public class BidController {
     SecurityController sec = new SecurityController();
 
     @PostMapping("/addbid/{p_id}")
-    public String addBidToDB(@RequestParam Integer p_id, @RequestParam Map<String, String> allFormRequestParams) {
+    public String addBid(@PathVariable Integer p_id, @RequestParam Map<String, String> allFormRequestParams) {
+        User user = userRepository.findByEmail(new SecurityController().loggedInUser());
         Bid bid = new Bid();
         bid.setPrice(Integer.parseInt(allFormRequestParams.get("price")));
+        bid.setUser(user);
+
         Product product = productRepository.findById(p_id).get();
-        User user = userRepository.findByEmail(sec.loggedInUser());
-        bid.setUser(userRepository.findByEmail(new SecurityController().loggedInUser()));
         product.addBid(bid);
+
+        bidRepository.save(bid);
         productRepository.save(product);
         String title =
-                "You did a bid on a product with the name " +
+                "You bid on a product with the name " +
                         product.getName();
         String body =
                 "Your bid: \n" +

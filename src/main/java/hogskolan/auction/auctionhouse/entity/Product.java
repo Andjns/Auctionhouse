@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Product {
+public class Product{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,18 +30,17 @@ public class Product {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Bid> addbid = new ArrayList<>();
+    private List<Bid> bids = new ArrayList<>();
 
     public void addBid(Bid bid) {
-        addbid.add(bid);
+        bids.add(bid);
         bid.setProduct(this);
     }
 
     public void removeBid(Bid bid) {
-        addbid.remove(bid);
+        bids.remove(bid);
         bid.setProduct(this);
     }
-
 
     public Product() {
 
@@ -108,12 +107,12 @@ public class Product {
         this.category = category;
     }
 
-    public List<Bid> getAddbid() {
-        return addbid;
+    public List<Bid> getBids() {
+        return bids;
     }
 
-    public void setAddbid(List<Bid> addbid) {
-        this.addbid = addbid;
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
     }
 
     public LocalDateTime getExpires() {
@@ -130,5 +129,14 @@ public class Product {
 
     public void setExpired(Boolean expired) {
         this.expired = expired;
+    }
+
+    @Override
+    public String toString() {
+        return "\nProdID:\t" + p_id +
+                "\nName:\t" + name +
+                "\nPrice:\t" + price.toString() +
+                "\nExpires:\t" + expires.toString() +
+                "\nExpired:\t" + expired.toString();
     }
 }

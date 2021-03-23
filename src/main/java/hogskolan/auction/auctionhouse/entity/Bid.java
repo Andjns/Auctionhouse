@@ -3,7 +3,7 @@ package hogskolan.auction.auctionhouse.entity;
 import javax.persistence.*;
 
 @Entity
-public class Bid {
+public class Bid implements Comparable<Object>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,10 +15,6 @@ public class Bid {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-
-
-
-
 
     public Bid() {
 
@@ -64,9 +60,13 @@ public class Bid {
 
     @Override
     public String toString() {
-        return "Bid{" +
-                "b_id=" + b_id +
-                ", price=" + price +
-                '}';
+        return "\nBidID:\t" + b_id +
+                "\tPrice:\t" + price;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Bid b = (Bid) o;
+        return this.price - ((Bid) o).getPrice();
     }
 }

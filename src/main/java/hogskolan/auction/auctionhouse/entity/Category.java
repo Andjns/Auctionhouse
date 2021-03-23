@@ -1,7 +1,5 @@
 package hogskolan.auction.auctionhouse.entity;
 
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +17,7 @@ public class Category {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Product> addprod = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
 
     public Category() {
@@ -31,11 +29,11 @@ public class Category {
     }
 
     public void addProduct(Product product) {
-        addprod.add(product);
+        products.add(product);
         product.setCategory(this);
     }
     public void removeProduct(Product product) {
-        addprod.remove(product);
+        products.remove(product);
         product.setCategory(this);
     }
 
