@@ -56,11 +56,8 @@ public class BidController {
                 "You did a bid on a product with the name " +
                         product.getName();
         String body =
-                "The auction's details: \n" +
-                        "Description: " + product.getDescription() +
-                        "\nImage link: " + product.getImg() +
-                        "\nStarting price: " + product.getPrice() +
-                        "\nBid: " + bid.getPrice();
+                "Your bid: \n" +
+                        "Bid: " + bid.getPrice();
         sendEmailService.sendEmail(user.getEmail(), title, body);
         return "redirect:/products/page/0";
     }
