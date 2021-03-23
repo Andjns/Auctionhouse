@@ -64,6 +64,8 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Product</th>
+            <th scope="col">Price</th>
+            <th scope="col">Expires</th>
             <th scope="col">Description</th>
             <th scope="col">Manage</th>
         </tr>
@@ -73,6 +75,8 @@
             <tr>
                 <th scope="row">{{p_id}}</th>
                 <td>{{name}}</td>
+                <td>{{price}}</td>
+                <td>{{expires}}</td>
                 <td>{{description}}</td>
                 <td><a href="/products/update/{{p_id}}">Update</a>  | <a href="/products/delete/{{p_id}}">Delete</a> </td>
             </tr>

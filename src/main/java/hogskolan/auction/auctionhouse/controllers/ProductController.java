@@ -73,8 +73,10 @@ public class ProductController {
         final int PAGESIZE = 3; //number of product on each page
         //get the next page based on its pagenumber, zerobased
         //also set pagesize, the number of products on the page
-        //Pageable all = PageRequest.of(pageno, PAGESIZE);
-        //List<Product> allProductsByEmail = productRepository.findAllByEmail(sec.loggedInUser(), all);
+
+        Pageable all = PageRequest.of(pageno, PAGESIZE);
+        List<Product> allProductsByUser = productRepository.findAllByUser(userRepository.findByEmail(sec.loggedInUser()), all);
+        System.out.println(allProductsByUser);
 
         PageRequest paging = PageRequest.of(pageno, PAGESIZE);
         Page<Product> pagedResult = productRepository.findAll(paging);
@@ -164,7 +166,4 @@ public class ProductController {
         productRepository.save(product);
         return  "redirect:/admin";
     }
-
-
-
 }//end Controller class
