@@ -38,7 +38,7 @@ public class BidController {
         List<Bid> bids = bidRepository.findAllByProduct(product);
         Collections.sort(bids, Collections.reverseOrder());
         if (product.getExpired()) {
-            model.addAttribute("expired", "THIS AUCTION HAS EXPIRED");
+            model.addAttribute("expired", "THIS AUCTION HAS EXPIRED\nANY NEW BIDS WILL BE DISCARDED");
         } else {
             model.addAttribute("expired", "");
         }
@@ -51,7 +51,7 @@ public class BidController {
     public String addBid(Model model, @PathVariable Integer p_id) {
         Product product = productRepository.findById(p_id).get();
         if (product.getExpired()) {
-            model.addAttribute("expired", "THIS AUCTION HAS EXPIRED");
+            model.addAttribute("expired", "THIS AUCTION HAS EXPIRED\nANY NEW BIDS WILL BE DISCARDED");
         } else {
             model.addAttribute("expired", "");
         }

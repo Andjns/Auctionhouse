@@ -84,6 +84,33 @@
         {{/products}}
         </tbody>
     </table>
+    </table>
+
+    <h4>Bid list</h4>
+    <table class="table table-striped table-dark">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Price</th>
+            <th scope="col">Product name</th>
+            <th scope="col">Product ID</th>
+            <th scope="col">User</th>
+            <th scope="col">Manage</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#bids}}
+            <tr>
+                <th scope="row">{{b_id}}</th>
+                <td>{{price}}</td>
+                <td>{{product.name}}</td>
+                <td>{{product.p_id}}</td>
+                <td>{{user.email}}</td>
+                <td><a href="/admin/bid/delete/{{b_id}}">Delete</a> </td>
+            </tr>
+        {{/bids}}
+        </tbody>
+    </table>
 
 
 </div>

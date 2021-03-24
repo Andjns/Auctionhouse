@@ -25,9 +25,9 @@
             <a class="nav-item nav-link" href="/products/user/page/0">My products</a>
             <a class="nav-item nav-link" href="/logout">Log out</a>
             <p class="nav-item nav-link">Categories:</p>
-            <a class="nav-item nav-link" href="/products/beer/page/0">Beer</a>
-            <a class="nav-item nav-link" href="/products/wine/page/0">Wine</a>
-            <a class="nav-item nav-link" href="/products/spirit/page/0">Spirit</a>
+            {{#categories}}
+                <a class="nav-item nav-link" href="/products/{{name}}/page/0">{{name}}</a>
+            {{/categories}}
         </div>
     </div>
 </nav>

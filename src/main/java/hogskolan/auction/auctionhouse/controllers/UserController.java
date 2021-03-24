@@ -49,6 +49,7 @@ public class UserController {
         model.addAttribute("products", productRepository.findAll());
         model.addAttribute("cat", categoryRepository.findAll());
         model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("bids", bidRepository.findAll());
         return "adminview";
     }
 
@@ -91,6 +92,13 @@ public class UserController {
     @GetMapping("/admin/users/delete/{u_id}")
     public String deleteUserById(@PathVariable Integer u_id) {
         userRepository.deleteById(u_id);
+        return "redirect:/admin";
+    }
+
+    //delete user
+    @GetMapping("/admin/bid/delete/{b_id}")
+    public String deleteBidById(@PathVariable Integer b_id) {
+        bidRepository.deleteById(b_id);
         return "redirect:/admin";
     }
 

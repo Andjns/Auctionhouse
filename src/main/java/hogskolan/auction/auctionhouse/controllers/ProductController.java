@@ -77,7 +77,7 @@ public class ProductController {
 
 
         //To show the top 3 bids, we go through each product we're showing
-        //and reset their productlist, then we fetch the bids into an
+        //and reset their productlist, then we fetch the bids from the db into an
         //ArrayList, sort this list and add back the top x(decided by Math.max)
         // bids.
         for (Product product : listProducts) {
@@ -89,6 +89,7 @@ public class ProductController {
             }
         }
         model.addAttribute("products", listProducts);//set the list with the 3 products
+        model.addAttribute("categories", categoryRepository.findAll());
         return "productallview";
 
     }
@@ -146,7 +147,7 @@ public class ProductController {
         }
 
         model.addAttribute("products", listProducts);//set the list with the 3 products
-        //model.addAttribute("pricedesc", bidRepository.findTop3ByOrderByPriceDesc());
+        model.addAttribute("categories", categoryRepository.findAll());
         return "productallview";
 
     }
@@ -188,6 +189,7 @@ public class ProductController {
             }
         }
         model.addAttribute("products", listProducts);//set the list with the 3 products
+        model.addAttribute("categories", categoryRepository.findAll());
         return "productallview";
 
     }
