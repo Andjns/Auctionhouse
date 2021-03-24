@@ -50,7 +50,7 @@ public class ProductController {
                 String subject = "You have won!";
                 String body = "Auction with name: " + product.getName() + " have been won by you!\nAmount to pay is: " +
                         winningBid.getPrice();
-                sendEmailService.sendWinnerEmail(product.getUser().getEmail(), subject, body);
+                sendEmailService.sendWinnerEmail(winningBid.getUser().getEmail(), subject, body);
                 productRepository.save(product);
             }
         }
